@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import cav.musicbox.ui.adapters.UserPlayListAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String TAG = "MB_MAIN";
     private RecyclerView mRecyclerView;
 
     private List<MainTrackModel> mTrackData;
@@ -49,7 +51,15 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.track_list);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        UserPlayListAdapter adapter = new UserPlayListAdapter(mTrackData);
+        UserPlayListAdapter adapter = new UserPlayListAdapter(mTrackData,mListener);
         mRecyclerView.setAdapter(adapter);
     }
+
+    private UserPlayListAdapter.PlayListHoler.CustomClickListener mListener = new UserPlayListAdapter.PlayListHoler.CustomClickListener() {
+        @Override
+        public void onUserItemClickListener(int adapterPosition) {
+            Log.d(TAG, String.valueOf(adapterPosition));
+
+        }
+    };
 }
