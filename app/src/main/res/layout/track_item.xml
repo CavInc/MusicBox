@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
+    android:id="@+id/item_track_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardBackgroundColor="@android:color/holo_blue_bright"
+    app:cardBackgroundColor="@android:color/holo_blue_dark"
+    app:cardCornerRadius="4dp"
     android:layout_margin="@dimen/spacing_normal_16">
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,26 +17,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Artist:"/>
+            android:text="Artist:"
+            style="@style/card_text_item"/>
         <TextView
             android:id="@+id/item_artist"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="Канцлер ГИ"
-            android:layout_marginBottom="@dimen/spacing_normal_16"/>
+            android:textSize="18sp"
+            android:layout_marginBottom="@dimen/spacing_normal_16"
+            style="@style/card_text_item"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Track:"/>
+            android:text="Track:"
+            style="@style/card_text_item"/>
         <TextView
             android:id="@+id/item_track"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="Корелева Мари"/>
+            android:text="Корелева Мари"
+            android:textSize="18sp"
+            style="@style/card_text_item"/>
 
     </LinearLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_add_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_black_24dp"
+        android:layout_gravity="center_horizontal"
+        >
+    </android.support.design.widget.FloatingActionButton>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_close_track"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_clear_black_24dp"
+        android:layout_gravity="center_horizontal|bottom"
+        />
 
 </android.support.v7.widget.CardView>

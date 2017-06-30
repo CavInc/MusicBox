@@ -2,6 +2,8 @@ package cav.musicbox.ui.adapters;
 
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,22 +39,26 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
         return 0;
     }
 
+    private int[] randomColor={Color.BLUE,Color.CYAN,Color.DKGRAY,Color.GREEN,Color.MAGENTA,Color.RED,Color.rgb(50,18,21)};
+
     @Override
     public void onBindViewHolder(UserPlayListAdapter.PlayListHoler holder, int position) {
         MainTrackModel data = mData.get(position);
         holder.mTrack.setText(data.getTrack());
         holder.mArtist.setText(data.getArtist());
+        holder.mCardView.setCardBackgroundColor(randomColor[(int) (Math.random() * +randomColor.length)]);
     }
 
     public static class PlayListHoler extends RecyclerView.ViewHolder{
         private TextView mArtist;
         private TextView mTrack;
+        private CardView mCardView;
 
         public PlayListHoler(View itemView) {
             super(itemView);
             mArtist = (TextView) itemView.findViewById(R.id.item_artist);
             mTrack = (TextView) itemView.findViewById(R.id.item_track);
-
+            mCardView = (CardView) itemView.findViewById(R.id.item_track_card);
         }
     }
 }

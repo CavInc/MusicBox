@@ -11,7 +11,7 @@ public class DataManager {
     private PreferensManager mPreferensManager;
 
     public DataManager(Context context) {
-
+        this.mPreferensManager = new PreferensManager();
     }
 
     public static DataManager getInstance(Context context) {
@@ -21,5 +21,7 @@ public class DataManager {
         return INSTANCE;
     }
 
-
+    public PreferensManager getPreferensManager() {
+        return mPreferensManager;
+    }
 }
