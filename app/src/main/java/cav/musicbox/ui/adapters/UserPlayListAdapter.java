@@ -75,6 +75,7 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
             mCardView = (CardView) itemView.findViewById(R.id.item_track_card);
             mAddButton = (FloatingActionButton) itemView.findViewById(R.id.button_add_track);
             mCloseButton = (FloatingActionButton) itemView.findViewById(R.id.button_close_track);
+            mCloseButton.setOnClickListener(this);
             itemView.setOnClickListener(this);
             mAddButton.setOnClickListener(this);
         }
@@ -82,9 +83,19 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
         @Override
         public void onClick(View view) {
             Log.d(TAG,"ITEM CLICKED");
+            if (view.getId() == R.id.item_track_card){
+                Log.d(TAG,"CARD ITEM");
+                mAddButton.setVisibility(View.VISIBLE);
+                mCloseButton.setVisibility(View.VISIBLE);
+            }
+            if (view.getId()==R.id.button_close_track){
+                mAddButton.setVisibility(View.GONE);
+                mCloseButton.setVisibility(View.GONE);
+            }
             if (mListener!=null) {
                 mListener.onUserItemClickListener(getAdapterPosition());
             }
+
         }
 
         //https://ru.stackoverflow.com/questions/468829/recyclerview-%D0%BF%D1%80%D0%BE%D0%B1%D0%BB%D0%B5%D0%BC%D0%B0-%D0%BF%D1%80%D0%B8-%D0%BE%D0%B1%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D0%BA%D0%B5-%D0%BA%D0%BB%D0%B8%D0%BA%D0%B0-%D0%BD%D0%B0-item
