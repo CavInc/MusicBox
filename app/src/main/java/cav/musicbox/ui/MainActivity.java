@@ -1,5 +1,10 @@
 package cav.musicbox.ui;
 
+import android.content.CursorLoader;
+import android.database.Cursor;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -7,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,4 +68,54 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllMusic();
+    }
+
+    // проверяем идею потом перенести в отдельный пакет
+    private void getAllMusic(){
+        final Uri mediaSrc = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        String[] from = { MediaStore.MediaColumns.TITLE };
+
+        CursorLoader cursorLoader = new CursorLoader(this,mediaSrc, null, null, null,MediaStore.Audio.Media.TITLE);
+        Cursor cursor = cursorLoader.loadInBackground();
+
+        Uri playableUri = null;
+
+        int ic = cursor.getCount();
+        for (int i=0;i<ic;i++){
+            cursor.moveToPosition(i);
+            String _id = cursor.getString(cursor
+                    .getColumnIndex(MediaStore.Audio.Media._ID));
+
+            // Дополнительная информация
+            String title = cursor.getString(cursor
+                    .getColumnIndex(MediaStore.Audio.Media.TITLE));
+            String artist = cursor.getString(cursor
+                    .getColumnIndex(MediaStore.Audio.Media.ARTIST));
+            String album = cursor.getString(cursor
+                    .getColumnIndex(MediaStore.Audio.Media.ALBUM));
+            int duration = cursor.getInt(cursor
+                    .getColumnIndex(MediaStore.Audio.Media.DURATION));
+
+            Log.d(TAG,title+" "+artist+" "+duration);
+            playableUri = Uri.withAppendedPath(mediaSrc, _id);
+            Log.d(TAG,playableUri.toString());
+        }
+
+        /*
+        MediaPlayer mMediaPlayer = new MediaPlayer();
+        try {
+            mMediaPlayer.setDataSource(this,playableUri);
+            mMediaPlayer.prepare();
+            mMediaPlayer.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        */
+
+    }
 }
