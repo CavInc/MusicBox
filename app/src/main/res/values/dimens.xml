@@ -7,4 +7,10 @@
 
     <dimen name="spacing_small_8">8dp</dimen>
     <dimen name="spacing_normal_16">16dp</dimen>
+
+    <dimen name="font_size">24sp</dimen>
+    <dimen name="img_size_24">24dp</dimen>
+    <dimen name="small_size_8">8dp</dimen>
+    <dimen name="spacing_size_16">16dp</dimen>
+    <dimen name="small_size_4">4dp</dimen>
 </resources>

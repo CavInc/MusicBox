@@ -3,4 +3,6 @@
     <string name="now_playing">Now Playing :</string>
     <string name="next_track">Next Track :</string>
     <string name="choose_your_track">Choose Your Track :</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
 </resources>

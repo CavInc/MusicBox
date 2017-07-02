@@ -26,7 +26,7 @@ public class MusicBoxPlayService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        mMediaPlayer.start();
         //return super.onStartCommand(intent, flags, startId);
         return START_STICKY;
     }
@@ -39,6 +39,7 @@ public class MusicBoxPlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mMediaPlayer.stop();
         releaseMP();
     }
 
