@@ -105,6 +105,7 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
         //
         public interface CustomClickListener {
             void onUserItemClickListener(int adapterPosition) ;
+            void onUserItemOnClickListener(int adapterPosition,MainTrackModel data);
         }
     }
 }

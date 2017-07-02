@@ -2,6 +2,7 @@ package cav.musicbox.ui;
 
 import android.app.Dialog;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -104,6 +105,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, String.valueOf(adapterPosition));
 
         }
+
+        @Override
+        public void onUserItemOnClickListener(int adapterPosition, MainTrackModel data) {
+
+        }
     };
 
     private void passDialog(){
@@ -115,7 +121,13 @@ public class MainActivity extends AppCompatActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                String keyPass= String.valueOf(keyET.getText());
+                // TODO переделать определение пароля
+                if (keyPass.equals("master")){
+                    Intent adminIntent = new Intent(MainActivity.this,AdminActivity.class);
+                    startActivity(adminIntent);
+                    dialog.dismiss();
+                }
             }
         });
         Button cancelButton = (Button) dialog.findViewById(R.id.cancel_button);
@@ -137,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
     // проверяем идею потом перенести в отдельный пакет
     private void getAllMusic(){
         final Uri mediaSrc = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        String[] from = { MediaStore.MediaColumns.TITLE };
 
         CursorLoader cursorLoader = new CursorLoader(this,mediaSrc, null, null, null,MediaStore.Audio.Media.TITLE);
         Cursor cursor = cursorLoader.loadInBackground();
