@@ -1,6 +1,8 @@
 package cav.musicbox.ui;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +34,9 @@ public class AdminActivity extends AppCompatActivity {
 
     private ImageButton mAddPlayList;
 
+
+    private PlayListHeaderAdapter playListHeaderAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +48,8 @@ public class AdminActivity extends AppCompatActivity {
 
 
         mPlayListHead = (ListView) findViewById(R.id.playlist_list);
+        mPlayListHead.setOnItemClickListener(mPlayListHeaderListener);
         mPlayListHead.setOnItemLongClickListener(mPlayListHeaderLongListener);
-
-        List<PlayListModel> playlist = mDataManager.getAllPlayList();
-        PlayListHeaderAdapter playListHeaderAdapter = new PlayListHeaderAdapter(this,R.layout.play_list_header_item,playlist);
-        mPlayListHead.setAdapter(playListHeaderAdapter);
-
 
         //List<MainTrackModel> noUsedModel = new ArrayList<>();
         List<MainTrackModel> noUsedModel = Func.getAllMusic(this);
@@ -59,11 +60,52 @@ public class AdminActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateUIPlayListHeader();
+    }
+
+    AdapterView.OnItemClickListener mPlayListHeaderListener = new AdapterView.OnItemClickListener()
+
+    {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            Log.d(TAG,"Click in item"+Integer.toString(position));
+        }
+    };
+
+    private int mOnLongId = -1;
+
     AdapterView.OnItemLongClickListener mPlayListHeaderLongListener = new AdapterView.OnItemLongClickListener() {
         @Override
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
             Log.d(TAG,"Long click in item "+Integer.toString(position));
-            return false;
+            PlayListModel model = (PlayListModel) adapterView.getItemAtPosition(position);
+            Log.d(TAG, String.valueOf(model.getId())+" "+model.getTitle());
+            mOnLongId = model.getId();
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(AdminActivity.this);
+            dialog.setTitle("Удаляем ?");
+            dialog.setIcon(android.R.drawable.ic_dialog_info);
+            dialog.setPositiveButton(R.string.yes, mDeleteDialogListener);
+            dialog.setNegativeButton(R.string.cancel, mDeleteDialogListener);
+            dialog.show();
+            return true;
+        }
+    };
+
+    DialogInterface.OnClickListener mDeleteDialogListener = new DialogInterface.OnClickListener(){
+        @Override
+        public void onClick(DialogInterface dialogInterface, int which) {
+            switch (which) {
+                case Dialog.BUTTON_POSITIVE:
+                    mDataManager.delPlayList(mOnLongId);
+                    updateUIPlayListHeader();
+                    break;
+                case Dialog.BUTTON_NEGATIVE:
+                    break;
+            }
         }
     };
 
@@ -79,6 +121,7 @@ public class AdminActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     mDataManager.addPlayList(String.valueOf(keyET.getText()),0);
+                    updateUIPlayListHeader();
                     dialog.dismiss();
                 }
             });
@@ -94,5 +137,15 @@ public class AdminActivity extends AppCompatActivity {
         }
     };
 
+    private void updateUIPlayListHeader(){
+        List<PlayListModel> playlist = mDataManager.getAllPlayList();
+        if (playListHeaderAdapter == null) {
+            playListHeaderAdapter = new PlayListHeaderAdapter(this, R.layout.play_list_header_item, playlist);
+            mPlayListHead.setAdapter(playListHeaderAdapter);
+        }else{
+            playListHeaderAdapter.setData(playlist);
+            playListHeaderAdapter.notifyDataSetChanged();
+        }
+    }
 
 }

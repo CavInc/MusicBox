@@ -45,6 +45,11 @@ public class DataBaseConnector {
 
     // удалить плей лист
     public void delPlayList(int id){
+        open();
+        //database.execSQL("PRAGMA foreign_keys = ON;");
+        database.delete(DBHelper.ADMIN_PLAY_LIST,"_id="+id,null);
+        database.delete(DBHelper.USED_TRACK,"play_list_id="+id,null);
+        close();
 
     }
 

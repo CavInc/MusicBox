@@ -42,6 +42,11 @@ public class PlayListHeaderAdapter extends ArrayAdapter<PlayListModel> {
         return row;
     }
 
+    public void setData(List<PlayListModel> playListModels){
+        this.clear();
+        this.addAll(playListModels);
+    }
+
     class ViewHolder {
         public TextView mPlayListtitle;
 

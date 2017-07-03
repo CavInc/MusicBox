@@ -23,13 +23,13 @@
         android:orientation="horizontal">
         <Button
             android:id="@+id/ok_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/yes"
             android:layout_weight="1"/>
         <Button
             android:id="@+id/cancel_button"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
             android:layout_weight="1"/>

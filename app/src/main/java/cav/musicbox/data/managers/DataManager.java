@@ -54,4 +54,9 @@ public class DataManager {
         mDbc.addPlayList(play_list_name,volume);
     }
 
+    public void delPlayList(int id){
+        mDbc.delPlayList(id);
+
+    }
+
 }
