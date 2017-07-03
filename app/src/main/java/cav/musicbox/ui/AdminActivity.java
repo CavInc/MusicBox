@@ -1,10 +1,13 @@
 package cav.musicbox.ui;
 
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -26,11 +29,17 @@ public class AdminActivity extends AppCompatActivity {
 
     private DataManager mDataManager;
 
+    private ImageButton mAddPlayList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin);
         mDataManager = DataManager.getInstance(this);
+
+        mAddPlayList = (ImageButton) findViewById(R.id.add_play_list);
+        mAddPlayList.setOnClickListener(mAddPlayListListener);
+
 
         mPlayListHead = (ListView) findViewById(R.id.playlist_list);
         mPlayListHead.setOnItemLongClickListener(mPlayListHeaderLongListener);
@@ -54,6 +63,24 @@ public class AdminActivity extends AppCompatActivity {
         public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
             Log.d(TAG,"Long click in item "+Integer.toString(position));
             return false;
+        }
+    };
+
+    View.OnClickListener mAddPlayListListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            final Dialog dialog = new Dialog(AdminActivity.this);
+            dialog.setTitle("Добавить плейлист");
+            dialog.setContentView(R.layout.add_playlist_dialog);
+
+            Button cancelButton = (Button) dialog.findViewById(R.id.cancel_button);
+            cancelButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
         }
     };
 
