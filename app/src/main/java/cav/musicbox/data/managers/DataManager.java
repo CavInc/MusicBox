@@ -50,4 +50,8 @@ public class DataManager {
         return rec;
     }
 
+    public void addPlayList(String play_list_name,int volume){
+        mDbc.addPlayList(play_list_name,volume);
+    }
+
 }
