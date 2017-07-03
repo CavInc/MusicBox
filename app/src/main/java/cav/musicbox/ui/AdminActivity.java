@@ -2,6 +2,9 @@ package cav.musicbox.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import cav.musicbox.utils.Func;
 
 public class AdminActivity extends AppCompatActivity {
 
+    private static final String TAG = "ADMIN";
     private ListView mNoUsedPlayList;
     private ListView mPlayListHead;
 
@@ -29,6 +33,8 @@ public class AdminActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance(this);
 
         mPlayListHead = (ListView) findViewById(R.id.playlist_list);
+        mPlayListHead.setOnItemLongClickListener(mPlayListHeaderLongListener);
+
         List<PlayListModel> playlist = mDataManager.getAllPlayList();
         PlayListHeaderAdapter playListHeaderAdapter = new PlayListHeaderAdapter(this,R.layout.play_list_header_item,playlist);
         mPlayListHead.setAdapter(playListHeaderAdapter);
@@ -42,4 +48,14 @@ public class AdminActivity extends AppCompatActivity {
         mNoUsedPlayList.setAdapter(noUserTrackAdapter);
 
     }
+
+    AdapterView.OnItemLongClickListener mPlayListHeaderLongListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+            Log.d(TAG,"Long click in item "+Integer.toString(position));
+            return false;
+        }
+    };
+
+
 }
