@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cav.musicbox.R;
@@ -22,6 +22,7 @@ import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.data.storage.models.PlayListModel;
 import cav.musicbox.ui.adapters.NoUserTrackAdapter;
 import cav.musicbox.ui.adapters.PlayListHeaderAdapter;
+import cav.musicbox.ui.adapters.PlayListSpecAdapter;
 import cav.musicbox.utils.Func;
 
 public class AdminActivity extends AppCompatActivity {
@@ -29,13 +30,19 @@ public class AdminActivity extends AppCompatActivity {
     private static final String TAG = "ADMIN";
     private ListView mNoUsedPlayList;
     private ListView mPlayListHead;
+    private ListView mSpecPlayList;
 
     private DataManager mDataManager;
 
     private ImageButton mAddPlayList;
 
+    private TextView mPlaySpecTitle;
 
     private PlayListHeaderAdapter playListHeaderAdapter;
+    private PlayListSpecAdapter mPlayListSpecAdapter;
+
+    private int mPlayListIDLong = -1;
+    private int mPlayListID = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,10 +53,15 @@ public class AdminActivity extends AppCompatActivity {
         mAddPlayList = (ImageButton) findViewById(R.id.add_play_list);
         mAddPlayList.setOnClickListener(mAddPlayListListener);
 
+        mPlaySpecTitle = (TextView) findViewById(R.id.spec_play_list_title);
+
 
         mPlayListHead = (ListView) findViewById(R.id.playlist_list);
         mPlayListHead.setOnItemClickListener(mPlayListHeaderListener);
         mPlayListHead.setOnItemLongClickListener(mPlayListHeaderLongListener);
+
+
+        mSpecPlayList = (ListView) findViewById(R.id.spec_play_list);
 
         //List<MainTrackModel> noUsedModel = new ArrayList<>();
         List<MainTrackModel> noUsedModel = Func.getAllMusic(this);
@@ -57,6 +69,7 @@ public class AdminActivity extends AppCompatActivity {
         mNoUsedPlayList = (ListView) findViewById(R.id.noused_list);
         NoUserTrackAdapter noUserTrackAdapter =new NoUserTrackAdapter(this,R.layout.playlist_track_item,noUsedModel);
         mNoUsedPlayList.setAdapter(noUserTrackAdapter);
+        mNoUsedPlayList.setOnItemClickListener(mNoUsedTrackListener);
 
     }
 
@@ -64,18 +77,19 @@ public class AdminActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateUIPlayListHeader();
+        updateUISpecPlayList(0,"UserPlayList");
     }
 
-    AdapterView.OnItemClickListener mPlayListHeaderListener = new AdapterView.OnItemClickListener()
-
-    {
+    AdapterView.OnItemClickListener mPlayListHeaderListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
             Log.d(TAG,"Click in item"+Integer.toString(position));
+            PlayListModel model = (PlayListModel) adapterView.getItemAtPosition(position);
+            mPlayListID = model.getId();
+            updateUISpecPlayList(model.getId(),model.getTitle());
         }
     };
 
-    private int mOnLongId = -1;
 
     AdapterView.OnItemLongClickListener mPlayListHeaderLongListener = new AdapterView.OnItemLongClickListener() {
         @Override
@@ -83,7 +97,7 @@ public class AdminActivity extends AppCompatActivity {
             Log.d(TAG,"Long click in item "+Integer.toString(position));
             PlayListModel model = (PlayListModel) adapterView.getItemAtPosition(position);
             Log.d(TAG, String.valueOf(model.getId())+" "+model.getTitle());
-            mOnLongId = model.getId();
+            mPlayListIDLong = model.getId();
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(AdminActivity.this);
             dialog.setTitle("Удаляем ?");
@@ -95,12 +109,21 @@ public class AdminActivity extends AppCompatActivity {
         }
     };
 
+    AdapterView.OnItemClickListener mNoUsedTrackListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+            MainTrackModel model = (MainTrackModel) adapterView.getItemAtPosition(position);
+            mDataManager.addTrackInPlayList(mPlayListID,model);
+            updateUISpecPlayList(mPlayListID);
+        }
+    };
+
     DialogInterface.OnClickListener mDeleteDialogListener = new DialogInterface.OnClickListener(){
         @Override
         public void onClick(DialogInterface dialogInterface, int which) {
             switch (which) {
                 case Dialog.BUTTON_POSITIVE:
-                    mDataManager.delPlayList(mOnLongId);
+                    mDataManager.delPlayList(mPlayListIDLong);
                     updateUIPlayListHeader();
                     break;
                 case Dialog.BUTTON_NEGATIVE:
@@ -145,6 +168,22 @@ public class AdminActivity extends AppCompatActivity {
         }else{
             playListHeaderAdapter.setData(playlist);
             playListHeaderAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void updateUISpecPlayList(int id,String title){
+        mPlaySpecTitle.setText("Плей лист:"+title);
+        updateUISpecPlayList(id);
+    }
+
+    private void updateUISpecPlayList(int id){
+        List<MainTrackModel> track = mDataManager.getTrackInPlayList(id);
+        if (mPlayListSpecAdapter == null) {
+            mPlayListSpecAdapter = new PlayListSpecAdapter(this,R.layout.playlist_track_item,track);
+            mSpecPlayList.setAdapter(mPlayListSpecAdapter);
+        }else {
+            mPlayListSpecAdapter.setData(track);
+            mPlayListSpecAdapter.notifyDataSetChanged();
         }
     }
 

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 
 import cav.musicbox.data.database.DataBaseConnector;
+import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.data.storage.models.PlayListModel;
 
 /**
@@ -57,6 +58,25 @@ public class DataManager {
     public void delPlayList(int id){
         mDbc.delPlayList(id);
 
+    }
+
+    public ArrayList<MainTrackModel> getTrackInPlayList(int id){
+        ArrayList<MainTrackModel> rec = new ArrayList<>();
+        mDbc.open();
+        Cursor cursor = mDbc.getTrackPlayList(id);
+        while(cursor.moveToNext()){
+            rec.add(new MainTrackModel(cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("artist")),
+                    cursor.getString(cursor.getColumnIndex("track")),
+                    cursor.getColumnName(cursor.getColumnIndex("uri_file")),
+                    cursor.getInt(cursor.getColumnIndex("play_list_id"))));
+        }
+        mDbc.close();
+        return rec;
+    }
+
+    public void addTrackInPlayList(int playlist_id,MainTrackModel data){
+        mDbc.addTrackInPlayList(playlist_id,data.getFile(),data.getArtist(),data.getTrack());
     }
 
 }

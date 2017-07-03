@@ -35,7 +35,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     "(_id integer not null primary key AUTOINCREMENT,"+
                     " type_play_list integer default 0,"+ // тип плей листа 0 - пользовательский 1 -админский
                     " play_list_id integer default 0,"+
-                    " uri_file text)");
+                    " uri_file text,"+"" +
+                    " artist text,"+"" +
+                    " track text)");
             db.execSQL("create table "+ADMIN_PLAY_LIST+
                     "(_id integer not null primary key AUTOINCREMENT,"+
                     " play_list_name text,"+

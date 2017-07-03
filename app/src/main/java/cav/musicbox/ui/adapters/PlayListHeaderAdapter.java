@@ -12,9 +12,7 @@ import java.util.List;
 import cav.musicbox.R;
 import cav.musicbox.data.storage.models.PlayListModel;
 
-/**
- * Created by cav on 02.07.17.
- */
+
 public class PlayListHeaderAdapter extends ArrayAdapter<PlayListModel> {
     private LayoutInflater mInflater;
     private int resLayout;

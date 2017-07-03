@@ -8,6 +8,7 @@ public class MainTrackModel {
     private String mTrack;
     private String mFile;
     private int id; // номер трека в базе
+    private int mPlayList; // плейлист
 
     public MainTrackModel(String artist, String track) {
         mArtist = artist;
@@ -20,11 +21,12 @@ public class MainTrackModel {
         mFile = file;
     }
 
-    public MainTrackModel(int id, String artist, String track, String file) {
+    public MainTrackModel(int id, String artist, String track, String file,int playList) {
         this.id = id;
         mArtist = artist;
         mTrack = track;
         mFile = file;
+        mPlayList =playList;
     }
 
     public int getId() {
@@ -41,5 +43,9 @@ public class MainTrackModel {
 
     public String getFile() {
         return mFile;
+    }
+
+    public int getPlayList() {
+        return mPlayList;
     }
 }
