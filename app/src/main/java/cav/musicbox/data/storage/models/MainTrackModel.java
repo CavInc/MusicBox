@@ -13,6 +13,12 @@ public class MainTrackModel {
         mTrack = track;
     }
 
+    public MainTrackModel(String artist, String track, String file) {
+        mArtist = artist;
+        mTrack = track;
+        mFile = file;
+    }
+
     public String getArtist() {
         return mArtist;
     }
