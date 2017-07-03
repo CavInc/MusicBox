@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -72,6 +73,15 @@ public class AdminActivity extends AppCompatActivity {
             final Dialog dialog = new Dialog(AdminActivity.this);
             dialog.setTitle("Добавить плейлист");
             dialog.setContentView(R.layout.add_playlist_dialog);
+            final EditText keyET = (EditText) dialog.findViewById(R.id.title_playlist_dialog);
+            Button okButton = (Button) dialog.findViewById(R.id.ok_button);
+            okButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDataManager.addPlayList(String.valueOf(keyET.getText()),0);
+                    dialog.dismiss();
+                }
+            });
 
             Button cancelButton = (Button) dialog.findViewById(R.id.cancel_button);
             cancelButton.setOnClickListener(new View.OnClickListener() {
