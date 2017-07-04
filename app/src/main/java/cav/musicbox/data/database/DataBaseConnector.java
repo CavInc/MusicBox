@@ -67,8 +67,10 @@ public class DataBaseConnector {
     }
 
     // удалить трек из плейлиста
-    public void delTrackPlayList(int id_playlist,int id_track){
-
+    public void delTrackPlayList(int id_track){
+        open();
+        database.delete(DBHelper.USED_TRACK,"_id="+id_track,null);
+        close();
     }
 
 }

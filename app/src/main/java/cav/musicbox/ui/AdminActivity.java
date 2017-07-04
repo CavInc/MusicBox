@@ -62,6 +62,7 @@ public class AdminActivity extends AppCompatActivity {
 
 
         mSpecPlayList = (ListView) findViewById(R.id.spec_play_list);
+        mSpecPlayList.setOnItemLongClickListener(mSpecLongListener); // удаляем запись из плей листа
 
         //List<MainTrackModel> noUsedModel = new ArrayList<>();
         List<MainTrackModel> noUsedModel = Func.getAllMusic(this);
@@ -115,6 +116,18 @@ public class AdminActivity extends AppCompatActivity {
             MainTrackModel model = (MainTrackModel) adapterView.getItemAtPosition(position);
             mDataManager.addTrackInPlayList(mPlayListID,model);
             updateUISpecPlayList(mPlayListID);
+        }
+    };
+
+    // удаляем запись из плей листа
+    AdapterView.OnItemLongClickListener mSpecLongListener = new AdapterView.OnItemLongClickListener() {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+            //TODO добавить диалог ?
+            MainTrackModel model = (MainTrackModel) adapterView.getItemAtPosition(position);
+            mDataManager.delTrackInPlayList(model.getId());
+            updateUISpecPlayList(mPlayListID);
+            return true;
         }
     };
 
@@ -172,7 +185,7 @@ public class AdminActivity extends AppCompatActivity {
     }
 
     private void updateUISpecPlayList(int id,String title){
-        mPlaySpecTitle.setText("Плей лист:"+title);
+        mPlaySpecTitle.setText("Плей лист: "+title);
         updateUISpecPlayList(id);
     }
 

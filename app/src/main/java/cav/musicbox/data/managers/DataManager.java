@@ -79,4 +79,9 @@ public class DataManager {
         mDbc.addTrackInPlayList(playlist_id,data.getFile(),data.getArtist(),data.getTrack());
     }
 
+    // удалить трек из плейлиста
+    public void delTrackInPlayList(int track_id){
+        mDbc.delTrackPlayList(track_id);
+    }
+
 }
