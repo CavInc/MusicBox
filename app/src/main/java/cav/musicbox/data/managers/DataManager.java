@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import cav.musicbox.data.database.DataBaseConnector;
 import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.data.storage.models.PlayListModel;
+import cav.musicbox.utils.MusicBoxApplication;
 
 /**
  * Created by cav on 30.06.17.
@@ -19,9 +20,14 @@ public class DataManager {
 
     private DataBaseConnector mDbc;
 
+    private Context mContext;
+
     public DataManager(Context context) {
+        //mContext = MusicBoxApplication.getContext();
+        mContext = context;
+
         this.mPreferensManager = new PreferensManager();
-        this.mDbc = new DataBaseConnector(context);
+        this.mDbc = new DataBaseConnector(mContext);
     }
 
     public static DataManager getInstance(Context context) {
@@ -29,6 +35,9 @@ public class DataManager {
             INSTANCE = new DataManager(context);
         }
         return INSTANCE;
+    }
+    public Context getContext() {
+        return mContext;
     }
 
     public PreferensManager getPreferensManager() {

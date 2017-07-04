@@ -45,9 +45,9 @@ public class Func {
             int duration = cursor.getInt(cursor
                     .getColumnIndex(MediaStore.Audio.Media.DURATION));
 
-            Log.d(TAG,title+" "+artist+" "+duration);
+           // Log.d(TAG,title+" "+artist+" "+duration);
             playableUri = Uri.withAppendedPath(mediaSrc, _id);
-            Log.d(TAG,playableUri.toString());
+           // Log.d(TAG,playableUri.toString());
             rec.add(new MainTrackModel(artist,title,playableUri.toString()));
         }
 
@@ -64,4 +64,6 @@ public class Func {
         }
         */
     }
+
+
 }

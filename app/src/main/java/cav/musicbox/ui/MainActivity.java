@@ -1,11 +1,13 @@
 package cav.musicbox.ui;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +29,7 @@ import java.util.List;
 import cav.musicbox.R;
 import cav.musicbox.data.managers.DataManager;
 import cav.musicbox.data.storage.models.MainTrackModel;
+import cav.musicbox.services.MusicBoxPlayService;
 import cav.musicbox.ui.adapters.UserPlayListAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onUserItemOnClickListener(int adapterPosition, MainTrackModel data) {
-
+            Log.d(TAG, String.valueOf(adapterPosition)+" "+data.getTrack());
         }
     };
 
@@ -148,6 +151,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //
+        //ArrayList<MainTrackModel> play_list = mDataManager.getTrackInPlayList(1); // для отладки
+        // запуск воспроизведения плейлиста
+       // Bundle bundle =new Bundle();
+     //   bundle.putSerializable("PLAY_LIST",play_list);
+       // bundle.putParcelableArrayList("PLAY_LIST", (ArrayList<? extends Parcelable>) play_list);
+        Intent intent= new Intent(this, MusicBoxPlayService.class);
+      //  intent.putExtra("PL",bundle);
+        intent.putExtra("PL",1);
+        startService(intent);
+
     }
 
 
