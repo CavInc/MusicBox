@@ -77,7 +77,7 @@ public class DataManager {
             rec.add(new MainTrackModel(cursor.getInt(cursor.getColumnIndex("_id")),
                     cursor.getString(cursor.getColumnIndex("artist")),
                     cursor.getString(cursor.getColumnIndex("track")),
-                    cursor.getColumnName(cursor.getColumnIndex("uri_file")),
+                    cursor.getString(cursor.getColumnIndex("uri_file")),
                     cursor.getInt(cursor.getColumnIndex("play_list_id"))));
         }
         mDbc.close();
