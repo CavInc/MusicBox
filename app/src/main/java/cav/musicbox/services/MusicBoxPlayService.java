@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -32,6 +33,16 @@ public class MusicBoxPlayService extends Service {
     private int currentTrackId = -1;
 
     private PendingIntent pi;
+
+    // Binder given to clients
+    private final IBinder mBinder = new LocalBinder();
+
+
+    public class LocalBinder extends Binder {
+        public  MusicBoxPlayService getService() {
+            return MusicBoxPlayService.this;
+        }
+    }
 
 
     public MusicBoxPlayService() {
@@ -59,14 +70,15 @@ public class MusicBoxPlayService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+       // throw new UnsupportedOperationException("Not yet implemented");
+        return mBinder;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         //Bundle buindle = intent.getExtras();
         //ArrayList<MainTrackModel> play_list = intent.getParcelableArrayListExtra ("PLAY_LIST");
-        int pl = intent.getIntExtra("PL",0);
+        int pl = intent.getIntExtra(ConstantManager.PLAY_LIST_ID,0);
         pi = intent.getParcelableExtra(ConstantManager.PARAM_PINTENT);
         play_list = mDataManager.getTrackInPlayList(pl);
 
@@ -120,15 +132,19 @@ public class MusicBoxPlayService extends Service {
         Log.d(TAG,"Track file "+play_list.get(currentTrackId).getFile());
 
         // возвращяем текущий трек
-        /*
+
         Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack());
         try {
             pi.send(MusicBoxPlayService.this,ConstantManager.CURRENT_TRACK,intent);
-        } catch (PendingIntent.CanceledException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
         return play_list.get(currentTrackId).getFile();
+    }
+
+    public void setNewTrack(MainTrackModel track){
+        play_list.set(currentTrackId+1,track);
     }
 
     MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
@@ -140,4 +156,14 @@ public class MusicBoxPlayService extends Service {
             }
         }
     };
+
+    class PlayerTask implements Runnable{
+
+        @Override
+        public void run() {
+
+
+        }
+    }
+
 }
