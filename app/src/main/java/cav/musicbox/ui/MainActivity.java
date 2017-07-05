@@ -2,6 +2,7 @@ package cav.musicbox.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import cav.musicbox.data.managers.DataManager;
 import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.services.MusicBoxPlayService;
 import cav.musicbox.ui.adapters.UserPlayListAdapter;
+import cav.musicbox.utils.ConstantManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,12 +44,16 @@ public class MainActivity extends AppCompatActivity {
 
     private DataManager mDataManager;
 
+    private TextView mCurrentTrack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mDataManager = DataManager.getInstance(this);
+
+        mCurrentTrack = (TextView) findViewById(R.id.track_played);
 
         mTrackData = new ArrayList<>();
 
@@ -148,6 +155,8 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -158,15 +167,32 @@ public class MainActivity extends AppCompatActivity {
        // Bundle bundle =new Bundle();
      //   bundle.putSerializable("PLAY_LIST",play_list);
        // bundle.putParcelableArrayList("PLAY_LIST", (ArrayList<? extends Parcelable>) play_list);
+        PendingIntent pi;
+        pi = createPendingResult(ConstantManager.TASK_ID, new Intent(), 0);
+
         stopService(new Intent(this,MusicBoxPlayService.class));
 
         Intent intent= new Intent(this, MusicBoxPlayService.class);
       //  intent.putExtra("PL",bundle);
         intent.putExtra("PL",1);
+        intent.putExtra(ConstantManager.PARAM_PINTENT,pi);
         startService(intent);
 
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(this, MusicBoxPlayService.class));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "requestCode = " + requestCode + ", resultCode = "
+                + resultCode);
+
+    }
 }

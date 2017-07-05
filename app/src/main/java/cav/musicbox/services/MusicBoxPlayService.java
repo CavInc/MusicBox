@@ -1,6 +1,7 @@
 package cav.musicbox.services;
 
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import cav.musicbox.R;
 import cav.musicbox.data.managers.DataManager;
 import cav.musicbox.data.storage.models.MainTrackModel;
+import cav.musicbox.utils.ConstantManager;
 
 public class MusicBoxPlayService extends Service {
 
@@ -28,6 +30,8 @@ public class MusicBoxPlayService extends Service {
 
     private ArrayList<MainTrackModel> play_list;
     private int currentTrackId = -1;
+
+    private PendingIntent pi;
 
 
     public MusicBoxPlayService() {
@@ -63,6 +67,7 @@ public class MusicBoxPlayService extends Service {
         //Bundle buindle = intent.getExtras();
         //ArrayList<MainTrackModel> play_list = intent.getParcelableArrayListExtra ("PLAY_LIST");
         int pl = intent.getIntExtra("PL",0);
+        pi = intent.getParcelableExtra(ConstantManager.PARAM_PINTENT);
         play_list = mDataManager.getTrackInPlayList(pl);
 
         if (play_list!=null) {
@@ -80,6 +85,7 @@ public class MusicBoxPlayService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG,"DESTROY");
         if (mMediaPlayer.isPlaying()) mMediaPlayer.stop();
         releaseMP();
     }
@@ -96,23 +102,33 @@ public class MusicBoxPlayService extends Service {
     }
 
     private void playTrack(String track){
-
         try {
+            mMediaPlayer.reset();
             mMediaPlayer.setDataSource(mDataManager.getContext(), Uri.parse(track));
             mMediaPlayer.prepare();
-            mMediaPlayer.setVolume(0,50);
+            mMediaPlayer.setVolume(0,80);
+            mMediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        mMediaPlayer.start();
     }
 
     private String getNextTrack(){
         currentTrackId +=1;
         Log.d(TAG,"Track #"+currentTrackId);
         if (currentTrackId>play_list.size()-1) currentTrackId = 0;
-        return play_list.get(currentTrackId).getTrack();
+        Log.d(TAG,"Track file "+play_list.get(currentTrackId).getFile());
+
+        // возвращяем текущий трек
+        /*
+        Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack());
+        try {
+            pi.send(MusicBoxPlayService.this,ConstantManager.CURRENT_TRACK,intent);
+        } catch (PendingIntent.CanceledException e) {
+            e.printStackTrace();
+        }*/
+
+        return play_list.get(currentTrackId).getFile();
     }
 
     MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
