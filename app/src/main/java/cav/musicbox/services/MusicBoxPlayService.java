@@ -133,7 +133,8 @@ public class MusicBoxPlayService extends Service {
 
         // возвращяем текущий трек
 
-        Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack());
+        Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack()+" "+
+                play_list.get(currentTrackId).getArtist());
         try {
             pi.send(MusicBoxPlayService.this,ConstantManager.CURRENT_TRACK,intent);
         } catch (Exception e) {
