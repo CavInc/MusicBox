@@ -158,10 +158,13 @@ public class MainActivity extends AppCompatActivity {
        // Bundle bundle =new Bundle();
      //   bundle.putSerializable("PLAY_LIST",play_list);
        // bundle.putParcelableArrayList("PLAY_LIST", (ArrayList<? extends Parcelable>) play_list);
+        stopService(new Intent(this,MusicBoxPlayService.class));
+
         Intent intent= new Intent(this, MusicBoxPlayService.class);
       //  intent.putExtra("PL",bundle);
         intent.putExtra("PL",1);
         startService(intent);
+
 
     }
 
