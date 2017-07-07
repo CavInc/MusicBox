@@ -119,6 +119,7 @@ public class MusicBoxPlayService extends Service {
             mMediaPlayer.setDataSource(mDataManager.getContext(), Uri.parse(track));
             mMediaPlayer.prepare();
             mMediaPlayer.setVolume(0.7f,0.7f);
+            mMediaPlayer.setScreenOnWhilePlaying(true); // не дает уснуть во премя воспроизведениея ?
             mMediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
