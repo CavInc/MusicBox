@@ -92,6 +92,10 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
                 mAddButton.setVisibility(View.GONE);
                 mCloseButton.setVisibility(View.GONE);
             }
+            if (view.getId() == R.id.button_add_track){
+                mAddButton.setVisibility(View.GONE);
+                mCloseButton.setVisibility(View.GONE);
+            }
             if (mListener!=null) {
                 mListener.onUserItemClickListener(getAdapterPosition());
             }

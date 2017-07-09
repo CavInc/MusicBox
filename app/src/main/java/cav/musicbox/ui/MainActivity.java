@@ -121,12 +121,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onUserItemClickListener(int adapterPosition) {
             Log.d(TAG, String.valueOf(adapterPosition));
+            UserPlayListAdapter.PlayListHoler holder = (UserPlayListAdapter.PlayListHoler) mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
+
 
         }
 
         @Override
         public void onUserItemOnClickListener(int adapterPosition, MainTrackModel data) {
             Log.d(TAG, String.valueOf(adapterPosition) + " " + data.getTrack());
+
         }
     };
 
@@ -187,8 +190,8 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this,MusicBoxPlayService.class);
             intent.putExtra(ConstantManager.PLAY_LIST_ID,1);
             intent.putExtra(ConstantManager.PARAM_PINTENT, pi);
-            startService(intent);
-            bindService(intent,mConnection,BIND_AUTO_CREATE);
+          //  startService(intent);
+          //  bindService(intent,mConnection,BIND_AUTO_CREATE);
         }
 
     }
