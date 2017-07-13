@@ -26,6 +26,10 @@ public class DataBaseConnector {
     public Cursor getAllPlayList(){
         return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume"},null,null,null,null,null);
     }
+    // получить все плей листы кроме пользовательского
+    public Cursor getAdminPlayList(){
+        return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume"},"_id<>0",null,null,null,null);
+    }
 
     // получить треки плей листа
     public Cursor getTrackPlayList(int id){

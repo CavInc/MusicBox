@@ -60,6 +60,20 @@ public class DataManager {
         return rec;
     }
 
+    // все плей листы кроме пользовательского
+    public ArrayList<PlayListModel> getAllAdminPlayList(){
+        ArrayList<PlayListModel> rec = new ArrayList<>();
+        mDbc.open();
+        Cursor cursor = mDbc.getAdminPlayList();
+        while (cursor.moveToNext()){
+            rec.add(new PlayListModel(cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("play_list_name")),
+                    cursor.getInt(cursor.getColumnIndex("volume"))));
+        }
+        mDbc.close();
+        return  rec;
+    }
+
     public void addPlayList(String play_list_name,int volume){
         mDbc.addPlayList(play_list_name,volume);
     }

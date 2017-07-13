@@ -34,6 +34,7 @@ import java.util.List;
 import cav.musicbox.R;
 import cav.musicbox.data.managers.DataManager;
 import cav.musicbox.data.storage.models.MainTrackModel;
+import cav.musicbox.data.storage.models.PlayListModel;
 import cav.musicbox.services.MusicBoxPlayService;
 import cav.musicbox.ui.adapters.UserPlayListAdapter;
 import cav.musicbox.utils.ConstantManager;
@@ -176,7 +177,12 @@ public class MainActivity extends AppCompatActivity {
 
         PendingIntent pi;
         pi = createPendingResult(ConstantManager.TASK_ID, new Intent(), 0);
+        ArrayList<PlayListModel> play_list = mDataManager.getAllAdminPlayList();
 
+        int i = 0;
+        if (play_list.size()!=0){
+            i = play_list.get(0).getId();
+        }
         /*
         stopService(new Intent(this, MusicBoxPlayService.class));
 
@@ -186,12 +192,14 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(ConstantManager.PARAM_PINTENT, pi);
         startService(intent);
         */
-        if (mService==null){
+
+
+        if (mService==null && i!=0){
             Intent intent = new Intent(this,MusicBoxPlayService.class);
-            intent.putExtra(ConstantManager.PLAY_LIST_ID,1);
+            intent.putExtra(ConstantManager.PLAY_LIST_ID,i);
             intent.putExtra(ConstantManager.PARAM_PINTENT, pi);
-          //  startService(intent);
-          //  bindService(intent,mConnection,BIND_AUTO_CREATE);
+            startService(intent);
+            bindService(intent,mConnection,BIND_AUTO_CREATE);
         }
 
     }
