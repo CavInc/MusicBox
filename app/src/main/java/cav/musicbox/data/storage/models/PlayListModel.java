@@ -7,11 +7,13 @@ public class PlayListModel {
     private int mId;
     private String mTitle;
     private int mVolume;
+    private boolean mSelected;
 
-    public PlayListModel(int id, String title, int volume) {
+    public PlayListModel(int id, String title, int volume,boolean selected) {
         mId = id;
         mTitle = title;
         mVolume = volume;
+        mSelected = selected;
     }
 
     public int getId() {
@@ -24,5 +26,9 @@ public class PlayListModel {
 
     public int getVolume() {
         return mVolume;
+    }
+
+    public boolean isSelected() {
+        return mSelected;
     }
 }

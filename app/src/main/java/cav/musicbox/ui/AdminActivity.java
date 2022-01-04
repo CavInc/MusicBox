@@ -23,6 +23,7 @@ import cav.musicbox.data.storage.models.PlayListModel;
 import cav.musicbox.ui.adapters.NoUserTrackAdapter;
 import cav.musicbox.ui.adapters.PlayListHeaderAdapter;
 import cav.musicbox.ui.adapters.PlayListSpecAdapter;
+import cav.musicbox.ui.dialogs.PlayListDialog;
 import cav.musicbox.utils.Func;
 
 public class AdminActivity extends AppCompatActivity {
@@ -88,6 +89,7 @@ public class AdminActivity extends AppCompatActivity {
             PlayListModel model = (PlayListModel) adapterView.getItemAtPosition(position);
             mPlayListID = model.getId();
             updateUISpecPlayList(model.getId(),model.getTitle());
+            mDataManager.getPreferensManager().setCurrentPlayList(model.getId());
         }
     };
 
@@ -149,32 +151,17 @@ public class AdminActivity extends AppCompatActivity {
     View.OnClickListener mAddPlayListListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            PlayListDialog dialog = new PlayListDialog();
+            dialog.setListener(mPlayListDialogListener);
+            dialog.show(getSupportFragmentManager(),"PLD");
+        }
+    };
 
-
-            final Dialog dialog = new Dialog(AdminActivity.this);
-            dialog.setTitle("Добавить плейлист");
-            dialog.setContentView(R.layout.add_playlist_dialog);
-            final EditText keyET = (EditText) dialog.findViewById(R.id.title_playlist_dialog);
-            Button okButton = (Button) dialog.findViewById(R.id.ok_button);
-            okButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mDataManager.addPlayList(String.valueOf(keyET.getText()),0);
-                    updateUIPlayListHeader();
-                    dialog.dismiss();
-                }
-            });
-
-            Button cancelButton = (Button) dialog.findViewById(R.id.cancel_button);
-            cancelButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dialog.dismiss();
-                }
-            });
-            dialog.show();
-
-
+    PlayListDialog.PlayListDialogListener mPlayListDialogListener = new PlayListDialog.PlayListDialogListener() {
+        @Override
+        public void onSetPlayList(String value) {
+            mDataManager.addPlayList(value,0);
+            updateUIPlayListHeader();
         }
     };
 

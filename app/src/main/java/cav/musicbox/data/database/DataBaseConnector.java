@@ -24,12 +24,17 @@ public class DataBaseConnector {
 
     // получить все плей листы
     public Cursor getAllPlayList(){
-        return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume"},null,null,null,null,null);
+        return database.query(DBHelper.ADMIN_PLAY_LIST,
+                new String[]{"_id","play_list_name","volume","selected"},null,null,null,null,"_id");
     }
     // получить все плей листы кроме пользовательского
     public Cursor getAdminPlayList(){
-        return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume"},"_id<>0",null,null,null,null);
+        return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume","selected"},"_id<>0",null,null,null,null);
     }
+
+    // установить активный плей лист
+
+
 
     // получить треки плей листа
     public Cursor getTrackPlayList(int id){

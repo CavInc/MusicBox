@@ -7,11 +7,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginLeft="4dp"
         android:layout_weight="1">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Плей листы"
+            android:gravity="center"
+            android:textSize="20sp"
             android:layout_marginBottom="8dp"
             android:textStyle="bold"/>
         <LinearLayout
@@ -61,6 +64,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="Не распределенные треки"
             android:textSize="14sp"
             android:layout_marginBottom="8dp"

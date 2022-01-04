@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:padding="8dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:text="Название плейлиста"
@@ -10,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <EditText
+        android:id="@+id/dialog_title_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

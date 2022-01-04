@@ -43,6 +43,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     "(_id integer not null primary key AUTOINCREMENT,"+
                     " play_list_name text,"+
                     " volume integer,"+
+                    " selected integer default 0," + // 0 - не выбран 1 - выбран
                     " start_time numeric,"+
                     " end_time numeric)");
 

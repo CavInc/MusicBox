@@ -2,9 +2,16 @@ package cav.musicbox.data.managers;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
+import cav.musicbox.data.database.DBHelper;
 import cav.musicbox.data.database.DataBaseConnector;
 import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.data.storage.models.PlayListModel;
@@ -54,7 +61,8 @@ public class DataManager {
         while (cursor.moveToNext()){
             rec.add(new PlayListModel(cursor.getInt(cursor.getColumnIndex("_id")),
                     cursor.getString(cursor.getColumnIndex("play_list_name")),
-                    cursor.getInt(cursor.getColumnIndex("volume"))));
+                    cursor.getInt(cursor.getColumnIndex("volume")),
+                    (cursor.getInt(cursor.getColumnIndex("selected"))==0 ? true : false)));
         }
         mDbc.close();
         return rec;
@@ -68,7 +76,8 @@ public class DataManager {
         while (cursor.moveToNext()){
             rec.add(new PlayListModel(cursor.getInt(cursor.getColumnIndex("_id")),
                     cursor.getString(cursor.getColumnIndex("play_list_name")),
-                    cursor.getInt(cursor.getColumnIndex("volume"))));
+                    cursor.getInt(cursor.getColumnIndex("volume")),
+                    (cursor.getInt(cursor.getColumnIndex("selected"))==0 ? true : false)));
         }
         mDbc.close();
         return  rec;
@@ -106,5 +115,34 @@ public class DataManager {
     public void delTrackInPlayList(int track_id){
         mDbc.delTrackPlayList(track_id);
     }
+
+
+
+    private void copyBase() {
+        /*
+        String path = getStorageAppPath();
+        File fin = new File (getDatabasePath(DBHelper.DATABASE_NAME).getAbsolutePath());
+        File fOut = new File(path, "ap.db3.jpg");
+        try {
+            InputStream in = new FileInputStream(fin);
+            OutputStream out = new FileOutputStream(fOut);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            // Закрываем потоки
+            in.close();
+            out.close();
+            Toast.makeText(getApplicationContext(),
+                    "База сохранена : " + fOut.getAbsolutePath(),
+                    Toast.LENGTH_LONG).show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        */
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package cav.musicbox.ui;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.PendingIntent;
@@ -7,12 +8,15 @@ import android.content.ComponentName;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -42,6 +46,7 @@ import cav.musicbox.utils.ConstantManager;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MB_MAIN";
+    private static final int PERMISSION_REQUEST_CODE = 345;
     private RecyclerView mRecyclerView;
 
     private List<MainTrackModel> mTrackData;
@@ -210,6 +215,15 @@ public class MainActivity extends AppCompatActivity {
         stopService(new Intent(this, MusicBoxPlayService.class));
 
     }
+
+    // проверка и установка разрешений
+    private void checkAndSetPermission(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},PERMISSION_REQUEST_CODE);
+        }
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
