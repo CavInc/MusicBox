@@ -38,6 +38,7 @@ public class DBHelper extends SQLiteOpenHelper {
                     " uri_file text,"+"" +
                     " artist text,"+"" +
                     " track text)");
+
             db.execSQL("create table "+ADMIN_PLAY_LIST+
                     "(_id integer not null primary key AUTOINCREMENT,"+
                     " play_list_name text,"+

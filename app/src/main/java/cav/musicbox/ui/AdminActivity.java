@@ -149,6 +149,8 @@ public class AdminActivity extends AppCompatActivity {
     View.OnClickListener mAddPlayListListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+
             final Dialog dialog = new Dialog(AdminActivity.this);
             dialog.setTitle("Добавить плейлист");
             dialog.setContentView(R.layout.add_playlist_dialog);
@@ -171,6 +173,8 @@ public class AdminActivity extends AppCompatActivity {
                 }
             });
             dialog.show();
+
+
         }
     };
 
