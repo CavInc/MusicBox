@@ -152,7 +152,8 @@ public class MusicBoxPlayService extends Service {
     }
 
     public void setNewTrack(MainTrackModel track){
-        play_list.set(currentTrackId+1,track);
+        //play_list.set(currentTrackId+1,track);
+        play_list.add(currentTrackId + 1 ,track);
     }
 
     MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {

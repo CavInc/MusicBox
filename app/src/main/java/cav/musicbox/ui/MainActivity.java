@@ -143,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
 
             MainTrackModel track = adapter.getItem(adapterPosition);
             Log.d(TAG,track.getTrack()+" "+track.getArtist()+" "+track.getFile());
+            mService.setNewTrack(track);
+
         }
 
         @Override

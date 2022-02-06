@@ -15,6 +15,7 @@ import cav.musicbox.data.database.DBHelper;
 import cav.musicbox.data.database.DataBaseConnector;
 import cav.musicbox.data.storage.models.MainTrackModel;
 import cav.musicbox.data.storage.models.PlayListModel;
+import cav.musicbox.ui.dialogs.PlayListDialog;
 import cav.musicbox.utils.MusicBoxApplication;
 
 /**
@@ -117,6 +118,21 @@ public class DataManager {
     }
 
 
+    // пользвательские треки
+    public ArrayList<MainTrackModel> getUserTack(){
+        ArrayList<MainTrackModel> rec = new ArrayList<>();
+        mDbc.open();
+        Cursor cursor = mDbc.getUserPlayList();
+        while (cursor.moveToFirst()) {
+            rec.add(new MainTrackModel(cursor.getInt(cursor.getColumnIndex("_id")),
+                    cursor.getString(cursor.getColumnIndex("artist")),
+                    cursor.getString(cursor.getColumnIndex("track")),
+                    cursor.getString(cursor.getColumnIndex("uri_file")),
+                    cursor.getInt(cursor.getColumnIndex("play_list_id"))));
+        }
+        mDbc.close();
+        return rec;
+    }
 
     private void copyBase() {
         /*

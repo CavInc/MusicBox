@@ -32,6 +32,16 @@ public class DataBaseConnector {
         return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume","selected"},"_id<>0",null,null,null,null);
     }
 
+    // получить пользовательский трек лист
+    public Cursor getUserPlayList(){
+        return database.query(DBHelper.ADMIN_PLAY_LIST,new String[]{"_id","play_list_name","volume","selected"},"_id = 0",null,null,null,null);
+    }
+
+    // получить треки пользовательского плей листа
+    public Cursor getUserPlayListTrack(){
+        return database.query(DBHelper.USED_TRACK,new String[]{},"",null,null,null,null,null);
+    }
+
     // установить активный плей лист
 
 

@@ -10,6 +10,7 @@ public class MainTrackModel {
     private String mAlbum;
     private int id; // номер трека в базе
     private int mPlayList; // плейлист
+    private boolean mVisible = true; // временно скрыть
 
     public MainTrackModel(String artist, String track) {
         mArtist = artist;
@@ -59,5 +60,13 @@ public class MainTrackModel {
 
     public String getAlbum() {
         return mAlbum;
+    }
+
+    public boolean isVisible() {
+        return mVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        mVisible = visible;
     }
 }
