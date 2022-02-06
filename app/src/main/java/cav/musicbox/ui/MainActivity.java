@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private DataManager mDataManager;
 
     private TextView mCurrentTrack;
+    private TextView mNextTrack;
+    private UserPlayListAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         mDataManager = DataManager.getInstance(this);
 
         mCurrentTrack = (TextView) findViewById(R.id.track_played);
+        mNextTrack = (TextView) findViewById(R.id.next_track);
 
         mTrackData = new ArrayList<>();
 
@@ -89,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.track_list);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        UserPlayListAdapter adapter = new UserPlayListAdapter(mTrackData, mListener);
-        mRecyclerView.setAdapter(adapter);
+        updateUI();
     }
 
     private void setupToolbar() {
@@ -123,13 +126,23 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateUI(){
+        if (adapter == null) {
+            adapter = new UserPlayListAdapter(mTrackData, mListener);
+            mRecyclerView.setAdapter(adapter);
+        } else {
+
+        }
+    }
+
     private UserPlayListAdapter.PlayListHoler.CustomClickListener mListener = new UserPlayListAdapter.PlayListHoler.CustomClickListener() {
         @Override
         public void onUserItemClickListener(int adapterPosition) {
             Log.d(TAG, String.valueOf(adapterPosition));
             UserPlayListAdapter.PlayListHoler holder = (UserPlayListAdapter.PlayListHoler) mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
 
-
+            MainTrackModel track = adapter.getItem(adapterPosition);
+            Log.d(TAG,track.getTrack()+" "+track.getArtist()+" "+track.getFile());
         }
 
         @Override
@@ -230,9 +243,12 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "requestCode = " + requestCode + ", resultCode = "
                 + resultCode);
+
         if (resultCode==ConstantManager.CURRENT_TRACK){
             String result = data.getStringExtra(ConstantManager.PARAM_RESULT);
             mCurrentTrack.setText(getString(R.string.now_playing)+" "+result);
+            result = data.getStringExtra(ConstantManager.PARAM_RESULT_NEXT);
+            mNextTrack.setText(getString(R.string.next_track)+" "+result);
         }
 
     }

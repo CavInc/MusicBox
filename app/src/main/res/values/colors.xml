@@ -6,7 +6,9 @@
     <color name="black">#000</color>
     <color name="white">#FFF</color>
 
-    <color name="colorFABAccent">#EEEE</color>
+    <color name="colorFABAccent">#EEEEEE</color>
     <color name="colorFABAccentPressed">#EEEE</color>
     <color name="colorFABRipple">#FFFF</color>
+
+    <color name="blue_line">#280df2</color>
 </resources>

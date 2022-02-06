@@ -132,10 +132,16 @@ public class MusicBoxPlayService extends Service {
         if (currentTrackId>play_list.size()-1) currentTrackId = 0;
         Log.d(TAG,"Track file "+play_list.get(currentTrackId).getFile());
 
+        int nextTrackId = (currentTrackId + 1) > (play_list.size() -1 ) ? 0: currentTrackId + 1 ;
+
+        Log.d(TAG,"Track Next: "+nextTrackId);
+
         // возвращяем текущий трек
 
         Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack()+" "+
-                play_list.get(currentTrackId).getArtist());
+                play_list.get(currentTrackId).getArtist())
+                .putExtra(ConstantManager.PARAM_RESULT_NEXT,play_list.get(nextTrackId).getTrack()+" "+
+                play_list.get(nextTrackId).getArtist());
         try {
             pi.send(MusicBoxPlayService.this,ConstantManager.CURRENT_TRACK,intent);
         } catch (Exception e) {

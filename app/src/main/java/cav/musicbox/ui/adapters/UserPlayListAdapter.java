@@ -45,6 +45,11 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
         return 0;
     }
 
+    // возвращаем данные трека
+    public MainTrackModel getItem(int position) {
+        return mData.get(position);
+    }
+
     //https://dribbble.com/shots/2012608-Material-Design-Colors
     //http://www.androidworld.it/2014/12/22/cercate-i-colori-giusti-per-vostra-app-in-material-design-come-trovarli-264846/
     private int[] randomColor={Color.BLUE,Color.CYAN,Color.DKGRAY,Color.GREEN,Color.MAGENTA,Color.RED,Color.rgb(50,18,21),Color.rgb(18,255,23)};

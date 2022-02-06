@@ -6,4 +6,5 @@ public interface ConstantManager {
     int TASK_ID = 1000;
     int CURRENT_TRACK = 100;
     String PLAY_LIST_ID = "PLAY_LIST_ID";
+    String PARAM_RESULT_NEXT = "resultNext";
 }
