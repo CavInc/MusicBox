@@ -1,8 +1,8 @@
 <resources>
 
-    <string name="now_playing">Now Playing :</string>
-    <string name="next_track">Next Track :</string>
-    <string name="choose_your_track">Choose Your Track :</string>
+    <string name="now_playing">Сейчас играет :</string>
+    <string name="next_track">Следуюший трек :</string>
+    <string name="choose_your_track">Выберите свой трек  :</string>
     <string name="yes">Yes</string>
     <string name="cancel">Cancel</string>
 

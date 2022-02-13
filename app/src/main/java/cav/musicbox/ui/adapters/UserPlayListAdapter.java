@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cav.musicbox.R;
@@ -56,6 +57,11 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
         notifyDataSetChanged();
     }
 
+    public void setDataItem(ArrayList<MainTrackModel> model){
+        mData.clear();
+        mData.addAll(model);
+    }
+
     //https://dribbble.com/shots/2012608-Material-Design-Colors
     //http://www.androidworld.it/2014/12/22/cercate-i-colori-giusti-per-vostra-app-in-material-design-come-trovarli-264846/
     private int[] randomColor={Color.BLUE,Color.CYAN,Color.DKGRAY,Color.GREEN,Color.MAGENTA,Color.RED,Color.rgb(50,18,21),Color.rgb(18,255,23)};
@@ -63,9 +69,11 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
     @Override
     public void onBindViewHolder(UserPlayListAdapter.PlayListHoler holder, int position) {
         MainTrackModel data = mData.get(position);
-        holder.mTrack.setText(data.getTrack());
-        holder.mArtist.setText(data.getArtist());
-        holder.mCardView.setCardBackgroundColor(randomColor[(int) (Math.random() * +randomColor.length)]);
+        if (data.isVisible()) {
+            holder.mTrack.setText(data.getTrack());
+            holder.mArtist.setText(data.getArtist());
+            holder.mCardView.setCardBackgroundColor(randomColor[(int) (Math.random() * +randomColor.length)]);
+        }
     }
 
     public static class PlayListHoler extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -98,6 +106,7 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
                 Log.d(TAG,"CARD ITEM");
                 mAddButton.setVisibility(View.VISIBLE);
                 mCloseButton.setVisibility(View.VISIBLE);
+                return;
             }
             if (view.getId()==R.id.button_close_track){
                 mAddButton.setVisibility(View.GONE);
@@ -106,9 +115,9 @@ public class UserPlayListAdapter extends RecyclerView.Adapter<UserPlayListAdapte
             if (view.getId() == R.id.button_add_track){
                 mAddButton.setVisibility(View.GONE);
                 mCloseButton.setVisibility(View.GONE);
-            }
-            if (mListener!=null) {
-                mListener.onUserItemClickListener(getAdapterPosition());
+                if (mListener!=null) {
+                    mListener.onUserItemClickListener(getAdapterPosition());
+                }
             }
 
         }

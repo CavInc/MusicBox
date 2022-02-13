@@ -122,8 +122,8 @@ public class DataManager {
     public ArrayList<MainTrackModel> getUserTack(){
         ArrayList<MainTrackModel> rec = new ArrayList<>();
         mDbc.open();
-        Cursor cursor = mDbc.getUserPlayList();
-        while (cursor.moveToFirst()) {
+        Cursor cursor = mDbc.getUserPlayListTrack();
+        while (cursor.moveToNext()) {
             rec.add(new MainTrackModel(cursor.getInt(cursor.getColumnIndex("_id")),
                     cursor.getString(cursor.getColumnIndex("artist")),
                     cursor.getString(cursor.getColumnIndex("track")),

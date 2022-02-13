@@ -132,28 +132,43 @@ public class MusicBoxPlayService extends Service {
         if (currentTrackId>play_list.size()-1) currentTrackId = 0;
         Log.d(TAG,"Track file "+play_list.get(currentTrackId).getFile());
 
-        int nextTrackId = (currentTrackId + 1) > (play_list.size() -1 ) ? 0: currentTrackId + 1 ;
+        //int nextTrackId = (currentTrackId + 1) > (play_list.size() -1 ) ? 0: currentTrackId + 1 ;
+        int nextTrackId = getNextTrackId();
 
         Log.d(TAG,"Track Next: "+nextTrackId);
 
         // возвращяем текущий трек
+        sendMessageInTrack(currentTrackId,nextTrackId);
 
+
+        return play_list.get(currentTrackId).getFile();
+    }
+
+    //получаем номер следующего трека
+    private int getNextTrackId(){
+        return (currentTrackId + 1) > (play_list.size() -1 ) ? 0: currentTrackId + 1 ;
+    }
+
+    // передаем данные от треках в активити
+    private void sendMessageInTrack(int currentTrackId,int nextTrackId){
         Intent intent = new Intent().putExtra(ConstantManager.PARAM_RESULT,play_list.get(currentTrackId).getTrack()+" "+
                 play_list.get(currentTrackId).getArtist())
                 .putExtra(ConstantManager.PARAM_RESULT_NEXT,play_list.get(nextTrackId).getTrack()+" "+
-                play_list.get(nextTrackId).getArtist());
+                        play_list.get(nextTrackId).getArtist());
         try {
             pi.send(MusicBoxPlayService.this,ConstantManager.CURRENT_TRACK,intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return play_list.get(currentTrackId).getFile();
     }
 
     public void setNewTrack(MainTrackModel track){
         //play_list.set(currentTrackId+1,track);
         play_list.add(currentTrackId + 1 ,track);
+
+        int nextTrackId = getNextTrackId();
+
+        sendMessageInTrack(currentTrackId,nextTrackId);
     }
 
     MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {

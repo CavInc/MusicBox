@@ -39,7 +39,7 @@ public class DataBaseConnector {
 
     // получить треки пользовательского плей листа
     public Cursor getUserPlayListTrack(){
-        return database.query(DBHelper.USED_TRACK,new String[]{},"",null,null,null,null,null);
+        return database.query(DBHelper.USED_TRACK,new String[]{"_id","uri_file","artist","track","play_list_id"},"play_list_id=0",null,null,null,null);
     }
 
     // установить активный плей лист

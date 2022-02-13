@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
         mTrackData = new ArrayList<>();
 
+        /*
         // debug data
         mTrackData.add(new MainTrackModel("Серьга", "Свет в оконце"));
         mTrackData.add(new MainTrackModel("Канлер ГИ", "Романд кардинала"));
@@ -86,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
         mTrackData.add(new MainTrackModel("Barrels of Whiskey", "The O'Reillys and the Paddyhats"));
         mTrackData.add(new MainTrackModel("Dropkick Murphys", "\"Rose Tattoo\""));
         mTrackData.add(new MainTrackModel("BOK VAN BLERK", "DE LA REY"));
+        */
 
         //
         GridLayoutManager linearLayoutManager = new GridLayoutManager(this, 4);
@@ -127,11 +129,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUI(){
+        mTrackData = mDataManager.getUserTack();
         if (adapter == null) {
             adapter = new UserPlayListAdapter(mTrackData, mListener);
             mRecyclerView.setAdapter(adapter);
         } else {
-
+           // adapter.notifyDataSetChanged();
         }
     }
 
@@ -139,12 +142,13 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onUserItemClickListener(int adapterPosition) {
             Log.d(TAG, String.valueOf(adapterPosition));
-            UserPlayListAdapter.PlayListHoler holder = (UserPlayListAdapter.PlayListHoler) mRecyclerView.findViewHolderForAdapterPosition(adapterPosition);
 
             MainTrackModel track = adapter.getItem(adapterPosition);
             Log.d(TAG,track.getTrack()+" "+track.getArtist()+" "+track.getFile());
-            mService.setNewTrack(track);
 
+            mService.setNewTrack(track);
+            track.setVisible(false);
+            adapter.setItem(adapterPosition,track);
         }
 
         @Override
